@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D8477C0D1F57268F00632D68 /* PassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8477C0C1F57268F00632D68 /* PassViewController.swift */; };
-		D897FFF91F65637800CA030A /* FormValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897FFF81F65637800CA030A /* FormValidator.swift */; };
 		D897FFFB1F6639FB00CA030A /* UIFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897FFFA1F6639FB00CA030A /* UIFormTextField.swift */; };
 		D897FFFE1F67B12600CA030A /* Contractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897FFFD1F67B12600CA030A /* Contractor.swift */; };
 		D8E24B731F3AC80D00056C8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24B721F3AC80D00056C8B /* AppDelegate.swift */; };
@@ -34,7 +33,6 @@
 
 /* Begin PBXFileReference section */
 		D8477C0C1F57268F00632D68 /* PassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassViewController.swift; sourceTree = "<group>"; };
-		D897FFF81F65637800CA030A /* FormValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidator.swift; sourceTree = "<group>"; };
 		D897FFFA1F6639FB00CA030A /* UIFormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFormTextField.swift; sourceTree = "<group>"; };
 		D897FFFD1F67B12600CA030A /* Contractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contractor.swift; sourceTree = "<group>"; };
 		D8E24B6F1F3AC80D00056C8B /* GuestPassesSB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuestPassesSB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,7 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				D8E24C0A1F3ACE4E00056C8B /* BusinessProtocols.swift */,
-				D897FFF81F65637800CA030A /* FormValidator.swift */,
 				D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */,
 				D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */,
 				D8E24C0D1F3ACE4E00056C8B /* ColorHelpers.swift */,
@@ -230,7 +227,6 @@
 				D8E24C021F3ACE2800056C8B /* Employee.swift in Sources */,
 				D8E24B731F3AC80D00056C8B /* AppDelegate.swift in Sources */,
 				D8E24C041F3ACE2800056C8B /* Vendor.swift in Sources */,
-				D897FFF91F65637800CA030A /* FormValidator.swift in Sources */,
 				D8477C0D1F57268F00632D68 /* PassViewController.swift in Sources */,
 				D897FFFB1F6639FB00CA030A /* UIFormTextField.swift in Sources */,
 				D8E24C031F3ACE2800056C8B /* Entrant.swift in Sources */,
