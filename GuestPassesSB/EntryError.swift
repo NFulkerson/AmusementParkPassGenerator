@@ -21,3 +21,8 @@ enum AccessError: Error {
 enum EntrantConversionError: Error {
     case UnidentifiableEntrant
 }
+
+
+enum FieldValidationError: Error {
+    case mandatoryFieldMissing
+}

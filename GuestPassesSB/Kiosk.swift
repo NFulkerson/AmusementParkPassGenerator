@@ -24,7 +24,8 @@ enum DiscountAccessibleError: Error {
 
 struct AccessControlList {
     private let types: [KioskLocation] = [.Amusement, .Kitchen, .RideControl,
-                                  .Maintenance, .Office, .Restaurant, .MerchBooth]
+                        .Maintenance, .Office, .Restaurant, .MerchBooth]
+    
     var rooms: [Kiosk] {
         return types.map(Kiosk.init)
     }
