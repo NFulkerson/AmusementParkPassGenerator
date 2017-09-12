@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8477C0D1F57268F00632D68 /* PassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8477C0C1F57268F00632D68 /* PassViewController.swift */; };
+		D897FFF91F65637800CA030A /* FormValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897FFF81F65637800CA030A /* FormValidator.swift */; };
+		D897FFFB1F6639FB00CA030A /* UIFormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897FFFA1F6639FB00CA030A /* UIFormTextField.swift */; };
+		D897FFFE1F67B12600CA030A /* Contractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897FFFD1F67B12600CA030A /* Contractor.swift */; };
 		D8E24B731F3AC80D00056C8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24B721F3AC80D00056C8B /* AppDelegate.swift */; };
 		D8E24B751F3AC80D00056C8B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24B741F3AC80D00056C8B /* ViewController.swift */; };
 		D8E24B781F3AC80D00056C8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8E24B761F3AC80D00056C8B /* Main.storyboard */; };
@@ -18,10 +22,8 @@
 		D8E24C021F3ACE2800056C8B /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFA1F3ACE2800056C8B /* Employee.swift */; };
 		D8E24C031F3ACE2800056C8B /* Entrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFB1F3ACE2800056C8B /* Entrant.swift */; };
 		D8E24C041F3ACE2800056C8B /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFC1F3ACE2800056C8B /* Vendor.swift */; };
-		D8E24C051F3ACE2800056C8B /* Contractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFD1F3ACE2800056C8B /* Contractor.swift */; };
 		D8E24C061F3ACE2800056C8B /* Guest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFE1F3ACE2800056C8B /* Guest.swift */; };
 		D8E24C071F3ACE2800056C8B /* Pass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFF1F3ACE2800056C8B /* Pass.swift */; };
-		D8E24C081F3ACE2800056C8B /* EntrantTypeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C001F3ACE2800056C8B /* EntrantTypeProtocols.swift */; };
 		D8E24C101F3ACE4E00056C8B /* BusinessProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0A1F3ACE4E00056C8B /* BusinessProtocols.swift */; };
 		D8E24C111F3ACE4E00056C8B /* EntryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */; };
 		D8E24C121F3ACE4E00056C8B /* Kiosk.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */; };
@@ -31,6 +33,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D8477C0C1F57268F00632D68 /* PassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassViewController.swift; sourceTree = "<group>"; };
+		D897FFF81F65637800CA030A /* FormValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidator.swift; sourceTree = "<group>"; };
+		D897FFFA1F6639FB00CA030A /* UIFormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFormTextField.swift; sourceTree = "<group>"; };
+		D897FFFD1F67B12600CA030A /* Contractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contractor.swift; sourceTree = "<group>"; };
 		D8E24B6F1F3AC80D00056C8B /* GuestPassesSB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuestPassesSB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8E24B721F3AC80D00056C8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8E24B741F3AC80D00056C8B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -44,10 +50,8 @@
 		D8E24BFA1F3ACE2800056C8B /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		D8E24BFB1F3ACE2800056C8B /* Entrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entrant.swift; sourceTree = "<group>"; };
 		D8E24BFC1F3ACE2800056C8B /* Vendor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
-		D8E24BFD1F3ACE2800056C8B /* Contractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contractor.swift; sourceTree = "<group>"; };
 		D8E24BFE1F3ACE2800056C8B /* Guest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guest.swift; sourceTree = "<group>"; };
 		D8E24BFF1F3ACE2800056C8B /* Pass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pass.swift; sourceTree = "<group>"; };
-		D8E24C001F3ACE2800056C8B /* EntrantTypeProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntrantTypeProtocols.swift; sourceTree = "<group>"; };
 		D8E24C0A1F3ACE4E00056C8B /* BusinessProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessProtocols.swift; sourceTree = "<group>"; };
 		D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryError.swift; sourceTree = "<group>"; };
 		D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kiosk.swift; sourceTree = "<group>"; };
@@ -67,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D897FFFC1F67AC9000CA030A /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				D897FFFA1F6639FB00CA030A /* UIFormTextField.swift */,
+			);
+			name = UIComponents;
+			sourceTree = "<group>";
+		};
 		D8E24B661F3AC80D00056C8B = {
 			isa = PBXGroup;
 			children = (
@@ -86,9 +98,12 @@
 		D8E24B711F3AC80D00056C8B /* GuestPassesSB */ = {
 			isa = PBXGroup;
 			children = (
+				D897FFFC1F67AC9000CA030A /* UIComponents */,
 				D8E24B841F3AC86100056C8B /* AudioFiles */,
 				D8E24B721F3AC80D00056C8B /* AppDelegate.swift */,
 				D8E24B741F3AC80D00056C8B /* ViewController.swift */,
+				D8E24BFF1F3ACE2800056C8B /* Pass.swift */,
+				D8477C0C1F57268F00632D68 /* PassViewController.swift */,
 				D8E24B761F3AC80D00056C8B /* Main.storyboard */,
 				D8E24B791F3AC80D00056C8B /* Assets.xcassets */,
 				D8E24B7B1F3AC80D00056C8B /* LaunchScreen.storyboard */,
@@ -113,12 +128,10 @@
 			children = (
 				D8E24BF91F3ACE2800056C8B /* Child.swift */,
 				D8E24BFA1F3ACE2800056C8B /* Employee.swift */,
+				D897FFFD1F67B12600CA030A /* Contractor.swift */,
 				D8E24BFB1F3ACE2800056C8B /* Entrant.swift */,
-				D8E24BFC1F3ACE2800056C8B /* Vendor.swift */,
-				D8E24BFD1F3ACE2800056C8B /* Contractor.swift */,
 				D8E24BFE1F3ACE2800056C8B /* Guest.swift */,
-				D8E24BFF1F3ACE2800056C8B /* Pass.swift */,
-				D8E24C001F3ACE2800056C8B /* EntrantTypeProtocols.swift */,
+				D8E24BFC1F3ACE2800056C8B /* Vendor.swift */,
 			);
 			name = "Entrant Types";
 			sourceTree = "<group>";
@@ -127,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				D8E24C0A1F3ACE4E00056C8B /* BusinessProtocols.swift */,
+				D897FFF81F65637800CA030A /* FormValidator.swift */,
 				D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */,
 				D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */,
 				D8E24C0D1F3ACE4E00056C8B /* ColorHelpers.swift */,
@@ -216,17 +230,19 @@
 				D8E24C021F3ACE2800056C8B /* Employee.swift in Sources */,
 				D8E24B731F3AC80D00056C8B /* AppDelegate.swift in Sources */,
 				D8E24C041F3ACE2800056C8B /* Vendor.swift in Sources */,
+				D897FFF91F65637800CA030A /* FormValidator.swift in Sources */,
+				D8477C0D1F57268F00632D68 /* PassViewController.swift in Sources */,
+				D897FFFB1F6639FB00CA030A /* UIFormTextField.swift in Sources */,
 				D8E24C031F3ACE2800056C8B /* Entrant.swift in Sources */,
 				D8E24C011F3ACE2800056C8B /* Child.swift in Sources */,
+				D897FFFE1F67B12600CA030A /* Contractor.swift in Sources */,
 				D8E24C131F3ACE4E00056C8B /* ColorHelpers.swift in Sources */,
 				D8E24C111F3ACE4E00056C8B /* EntryError.swift in Sources */,
-				D8E24C081F3ACE2800056C8B /* EntrantTypeProtocols.swift in Sources */,
 				D8E24C061F3ACE2800056C8B /* Guest.swift in Sources */,
 				D8E24C151F3ACE4E00056C8B /* Helpers.swift in Sources */,
 				D8E24C071F3ACE2800056C8B /* Pass.swift in Sources */,
 				D8E24C121F3ACE4E00056C8B /* Kiosk.swift in Sources */,
 				D8E24C141F3ACE4E00056C8B /* SampleData.swift in Sources */,
-				D8E24C051F3ACE2800056C8B /* Contractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +373,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nfulkerson.GuestPassesSB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -370,6 +387,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nfulkerson.GuestPassesSB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
