@@ -7,8 +7,10 @@
 //
 
 import UIKit
+
 // This extension comes from here: https://medium.com/ios-os-x-development/ios-extend-uicolor-with-custom-colors-93366ae148e6#.xx3zncsay
 // Which I shared in the Slack. Gives a convenient way to quickly set colors on UI objects programmatically.
+
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
@@ -33,9 +35,8 @@ extension UIColor {
             static let light = UIColor(netHex: 0xDBD6DF)
             static let steel = UIColor(netHex: 0xCBC6CF)
             static let dark = UIColor(netHex: 0x535253)
+            static let muted = UIColor(netHex: 0xDEDEDE)
         }
-        
-        
     }
 }
 
