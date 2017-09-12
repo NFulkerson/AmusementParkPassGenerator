@@ -6,7 +6,7 @@
 //  Copyright © 2017 Nathan Fulkerson. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 ///
 /// Guests:
@@ -34,43 +34,37 @@ import Foundation
 /// Managerial Staff
 /// Managers have a discount of 25% on all items in the park.
 /// - manager: Access to all areas.
+
 struct Pass {
-    enum PassType {
-        enum Guest: RideAccessible {
-            case classic
-            case vip
-            case senior(firstName: String, lastName: String, birthday: Date)
-            case child(Date)
-            case seasonal
-        }
+    let name: String?
+    let passType: String
+    let benefits: String
+    let photo: UIImage?
+}
+
+enum PassType: String {
+    case guest = "Guest"
+    case employee = "Employee"
+    case manager = "Manager"
+    case contract = "Contractor"
+    case vendor = "Vendor"
     
-        enum Employee {
-            enum Hourly {
-                case foodServices
-                case rideServices
-                case maintenanceServices
-            }
-            
-            enum Contract: Int {
-                case project1001 = 1001
-                case project1002 = 1002
-                case project1003 = 1003
-                case project2001 = 2001
-                case project2002 = 2002
-            }
-        }
-        
-        enum Vendor {
-            case nwElectric
-            case acme
-            case orkin
-            case fedex
-        }
-        
-        enum Manager {
-            case genersl
+    func getSubcategories() -> [String] {
+        switch self {
+        case .guest:
+            return ["Classic", "VIP", "Senior", "Child", "Seasonal"]
+        case .employee:
+            return ["Food Services", "Ride Services", "Maintenance Services"]
+        case .manager:
+            return ["Shift", "General"]
+        case .contract:
+            return ["#1001", "#1002", "#1003", "#2001", "#2002"]
+        case .vendor:
+            return ["NW Electric", "Acme", "Orkin", "Fedex"]
         }
     }
-    var type: PassType
     
+    static func getSubcategories(for type: PassType) -> [String] {
+        return type.getSubcategories()
+    }
 }
