@@ -44,10 +44,7 @@ protocol DiscountQualifiable {
 }
 
 // These protocols loosely define different classes of people admitted entry to the park.
-// This protocol is the base for all employees.
-protocol Employable: Addressable {
-    var type: EmployeeType { get }
-}
+
 
 protocol Nameable {
     var firstName: String? { get set }

@@ -21,6 +21,11 @@ enum EmployeeType {
     case Manager
 }
 
+// This protocol is the base for all employees.
+protocol Employable: Addressable {
+    var type: EmployeeType { get }
+}
+
 struct Employee: Entrant, RideAccessible, Employable, DiscountQualifiable {
     var firstName: String?
     var middleName: String?
@@ -42,16 +47,14 @@ struct Employee: Entrant, RideAccessible, Employable, DiscountQualifiable {
     ///   - type: The type of employee (Food Service, Ride Service, Management, Maintenance)
     init(as type: EmployeeType, with firstName: String?, lastName: String?, address: HomeAddress) throws {
         do {
-            
             try self.init(firstName: firstName, lastName: lastName)
             self.address = address
             self.type = type
-            
-            
         } catch let error {
             print(error)
             throw error
         }
-        
     }
 }
+
+

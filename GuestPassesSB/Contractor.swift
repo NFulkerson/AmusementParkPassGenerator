@@ -1,19 +1,18 @@
 //
 //  Contractor.swift
-//  GuestPasses
+//  GuestPassesSB
 //
-//  Created by Nathan Fulkerson on 5/8/17.
+//  Created by Nathan on 9/12/17.
 //  Copyright © 2017 Nathan Fulkerson. All rights reserved.
 //
 
 import Foundation
 
-struct Contractor: Employable {
+struct Contractor: Addressable {
     var firstName: String?
     var middleName: String?
     var lastName: String?
     let address: HomeAddress
-    var type: EmployeeType
     
     enum Project {
         case p1001
