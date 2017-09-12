@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol FieldValidatable {
+    var mandatory: Bool { get set }
+}
+
 struct HomeAddress {
     let streetAddress: String
     let city: String
