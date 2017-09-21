@@ -6,7 +6,7 @@
 //  Copyright © 2017 Nathan Fulkerson. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct Contractor: Addressable {
     var firstName: String?
@@ -14,11 +14,12 @@ struct Contractor: Addressable {
     var lastName: String?
     let address: HomeAddress
     
-    enum Project {
+    enum Project: String {
         case p1001
         case p1002
         case p1003
         case p2001
         case p2002
     }
+
 }

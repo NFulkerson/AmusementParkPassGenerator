@@ -34,4 +34,19 @@ struct Senior: Identifiable, LineSkippable {
     var firstName: String?
     var middleName: String?
     var lastName: String?
+    var birthDate: Date
+    
+    init(birthDate: String) throws {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        
+        guard let bday = dateFormatter.date(from: birthDate) else {
+            throw DOBError.dateConversionError("Couldn't create date from string.")
+        }
+        self.birthDate = bday
+        
+        if bday.age < 60 {
+            throw DOBError.dobInvalid("Guest doesn't yet qualify for senior admission.")
+        }
+    }
 }
