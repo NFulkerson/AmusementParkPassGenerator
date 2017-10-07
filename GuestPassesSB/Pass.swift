@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+/// IDEA: Use pass to determine category, use category and subcategory in view controller to determine the entrant that needs to be created.
+/// Embed entrant in pass,
 ///
 /// Guests:
 ///   - classic: Basic Guest
@@ -37,9 +38,10 @@ import UIKit
 
 struct Pass {
     let name: String?
-    let passType: String
-    let benefits: String
+    let passType: PassType
+    let benefits: String?
     let photo: UIImage?
+    let owner: Entrant
 }
 
 enum PassType: String {
