@@ -17,7 +17,6 @@
 		D8E24B7D1F3AC80D00056C8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8E24B7B1F3AC80D00056C8B /* LaunchScreen.storyboard */; };
 		D8E24BC11F3AC86100056C8B /* AccessDenied.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8E24B851F3AC86100056C8B /* AccessDenied.wav */; };
 		D8E24BC21F3AC86100056C8B /* AccessGranted.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8E24B861F3AC86100056C8B /* AccessGranted.wav */; };
-		D8E24C011F3ACE2800056C8B /* Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BF91F3ACE2800056C8B /* Child.swift */; };
 		D8E24C021F3ACE2800056C8B /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFA1F3ACE2800056C8B /* Employee.swift */; };
 		D8E24C031F3ACE2800056C8B /* Entrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFB1F3ACE2800056C8B /* Entrant.swift */; };
 		D8E24C041F3ACE2800056C8B /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24BFC1F3ACE2800056C8B /* Vendor.swift */; };
@@ -44,7 +43,6 @@
 		D8E24B7E1F3AC80D00056C8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8E24B851F3AC86100056C8B /* AccessDenied.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AccessDenied.wav; sourceTree = "<group>"; };
 		D8E24B861F3AC86100056C8B /* AccessGranted.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = AccessGranted.wav; sourceTree = "<group>"; };
-		D8E24BF91F3ACE2800056C8B /* Child.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Child.swift; sourceTree = "<group>"; };
 		D8E24BFA1F3ACE2800056C8B /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		D8E24BFB1F3ACE2800056C8B /* Entrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entrant.swift; sourceTree = "<group>"; };
 		D8E24BFC1F3ACE2800056C8B /* Vendor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 		D8E24C091F3ACE2F00056C8B /* Entrant Types */ = {
 			isa = PBXGroup;
 			children = (
-				D8E24BF91F3ACE2800056C8B /* Child.swift */,
 				D8E24BFA1F3ACE2800056C8B /* Employee.swift */,
 				D897FFFD1F67B12600CA030A /* Contractor.swift */,
 				D8E24BFB1F3ACE2800056C8B /* Entrant.swift */,
@@ -174,12 +171,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Nathan Fulkerson";
 				TargetAttributes = {
 					D8E24B6E1F3AC80D00056C8B = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = B7ES5QUQAV;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -230,7 +228,6 @@
 				D8477C0D1F57268F00632D68 /* PassViewController.swift in Sources */,
 				D897FFFB1F6639FB00CA030A /* UIFormTextField.swift in Sources */,
 				D8E24C031F3ACE2800056C8B /* Entrant.swift in Sources */,
-				D8E24C011F3ACE2800056C8B /* Child.swift in Sources */,
 				D897FFFE1F67B12600CA030A /* Contractor.swift in Sources */,
 				D8E24C131F3ACE4E00056C8B /* ColorHelpers.swift in Sources */,
 				D8E24C111F3ACE4E00056C8B /* EntryError.swift in Sources */,
@@ -274,7 +271,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -282,7 +281,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -325,7 +328,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -333,7 +338,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -368,7 +377,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nfulkerson.GuestPassesSB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -382,7 +392,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nfulkerson.GuestPassesSB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
