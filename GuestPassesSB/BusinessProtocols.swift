@@ -48,19 +48,7 @@ protocol DiscountQualifiable {
 
 protocol Nameable {
     var firstName: String? { get set }
-    var middleName: String? { get set }
     var lastName: String? { get set }
-    
-}
-
-extension Nameable {
-    init(firstName: String?, lastName: String?) throws {
-        guard let first = firstName, let last = lastName else {
-            throw NameError.invalidData
-        }
-        
-        try self.init(firstName: first, lastName: last)
-    }
 }
 
 enum NameError: Error {
