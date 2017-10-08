@@ -42,6 +42,30 @@ struct Pass {
     let benefits: String?
     let photo: UIImage?
     let owner: Entrant
+    // Gives the pass the responsibility of describing what specific pass it is without
+    // making it the responsibility of the View Controller.
+    // This could be simplified by rewriting the Entrant protocol to have a `type` property
+    // and conform all Entrants to it, or possibly by simply assigning a description when instantiating
+    // the pass from the form.
+    func passDescription() -> String {
+        var description: String
+        if self.owner is Guest {
+            let guest = owner as! Guest
+            description = guest.type.rawValue
+        } else if self.owner is Employee {
+            let employee = owner as! Employee
+            description = employee.type.rawValue
+        } else if self.owner is Contractor {
+            let contract = owner as! Contractor
+            description = contract.project.rawValue
+        } else if self.owner is Vendor {
+            let vendor = owner as! Vendor
+            description = vendor.company.rawValue
+        } else {
+            description = "Invalid Pass?"
+        }
+        return description
+    }
 }
 
 enum PassType: String {
