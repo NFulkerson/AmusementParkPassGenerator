@@ -20,8 +20,17 @@ class PassViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        guard let pass = pass else {
+            let alert = UIAlertController(title: "Error", message: "Seems we couldn't load the pass data.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        let passName = pass.name ?? ""
+        self.passCardNameLabel.text = passName
+        self.passCardNameLabel.sizeToFit()
+        self.passTypeLabel.text = pass.passDescription()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,26 +45,56 @@ class PassViewController: UIViewController {
     @IBAction func testPermissions(_ sender: UIButton) {
         print(sender.titleLabel?.text ?? "Unknown")
         let buttonText = sender.titleLabel?.text ?? "Unknown"
+        var kiosk: Kiosk
+        guard let owner = pass?.owner else {
+            let alert = UIAlertController(title: "Error", message: "Seems we couldn't load the pass data.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
         switch buttonText {
-        case "Amusement Area Access":
-            print("This will test Amusement access")
-        case "Ride Access":
-            print("This will test Ride access")
-        case "Discount Access":
-            print("This will test Discount access")
-        case "Kitchen Access":
-            print("This will test Kitchen access")
-        case "Maintenance Access":
-            print("This will test Maintenance access")
-        case "Office Access":
-            print("This will test Office access")
+        case "Amusements":
+            kiosk = Kiosk(location: .Amusement)
+        case "Rides":
+            kiosk = Kiosk(location: .RideAccess)
+        case "Ride Control":
+            kiosk = Kiosk(location: .RideControl)
+        case "Discounts":
+            kiosk = Kiosk(location: .MerchBooth)
+        case "Kitchen":
+            kiosk = Kiosk(location: .Kitchen)
+        case "Maintenance":
+            kiosk = Kiosk(location: .Maintenance)
+        case "Office":
+            kiosk = Kiosk(location: .Office)
+        case "Skip Lines":
+            if pass?.passDescription() == "VIP Pass" || pass?.passDescription() == "Season Pass" ||
+                pass?.passDescription() == "Senior Pass" {
+                displayTestResult(with: true)
+                return
+            } else {
+                displayTestResult(with: false)
+                return
+            }
         default:
             testResultLabel.text = "Unknown Error"
+            return
         }
+        let result = owner.swipe(kiosk: kiosk)
+        displayTestResult(with: result)
+        
     }
     
-    func displayTestResult() {
-        
+    func displayTestResult(with result: Bool) {
+        switch result {
+        case true:
+            testResultLabel.text = "Access Granted!"
+            testresultView.backgroundColor = UIColor.green
+        case false:
+            testResultLabel.text = "Access Denied!"
+            testresultView.backgroundColor = UIColor.red
+        }
     }
 
 }
