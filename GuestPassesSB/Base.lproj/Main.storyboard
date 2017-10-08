@@ -203,7 +203,7 @@
                                 <color key="tintColor" red="0.98804330579999999" green="0.98804330579999999" blue="0.98804330579999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Generate Pass"/>
                                 <connections>
-                                    <action selector="generatePassButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bWK-x1-ZZN"/>
+                                    <segue destination="ARR-nf-mtU" kind="presentation" identifier="generatePassViewSegue" id="GJ6-cL-rLb"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUz-Tk-u6F">
@@ -484,7 +484,7 @@
         <!--Pass View Controller-->
         <scene sceneID="di3-PW-9EB">
             <objects>
-                <viewController id="ARR-nf-mtU" customClass="PassViewController" customModule="GuestPassesSB" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PassView" id="ARR-nf-mtU" customClass="PassViewController" customModule="GuestPassesSB" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="35x-bC-7XU"/>
                         <viewControllerLayoutGuide type="bottom" id="gFC-1o-pLc"/>
@@ -519,21 +519,21 @@
                                             <constraint firstAttribute="width" secondItem="Dng-JY-9BN" secondAttribute="height" multiplier="35:36" id="tDi-O3-Bdt"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FirstName LastName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M5A-gH-B5z">
-                                        <rect key="frame" x="295" y="80" width="206" height="27"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FirstName LastName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="M5A-gH-B5z">
+                                        <rect key="frame" x="295" y="80" width="260.5" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26.5" id="ldH-su-C4w"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="28"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pass Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0Q-qc-ktu">
-                                        <rect key="frame" x="295" y="115" width="211" height="20"/>
+                                        <rect key="frame" x="295" y="115" width="210" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="211" id="kbL-Kq-e9B"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="kbL-Kq-e9B"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -555,7 +555,7 @@
                                     <constraint firstItem="8jx-qA-q91" firstAttribute="top" secondItem="Q0Q-qc-ktu" secondAttribute="bottom" constant="25" id="OrY-LU-qH3"/>
                                     <constraint firstAttribute="bottom" secondItem="Dng-JY-9BN" secondAttribute="bottom" constant="80" id="QAf-3u-huD"/>
                                     <constraint firstItem="8jx-qA-q91" firstAttribute="bottom" secondItem="Dng-JY-9BN" secondAttribute="bottom" id="R66-sQ-goX"/>
-                                    <constraint firstItem="8jx-qA-q91" firstAttribute="leading" secondItem="Dng-JY-9BN" secondAttribute="trailing" constant="60" id="YlX-Uu-Uqt"/>
+                                    <constraint firstItem="8jx-qA-q91" firstAttribute="leading" relation="lessThanOrEqual" secondItem="Dng-JY-9BN" secondAttribute="trailing" constant="60" id="YlX-Uu-Uqt"/>
                                     <constraint firstItem="Dng-JY-9BN" firstAttribute="centerY" secondItem="FnP-FX-WD3" secondAttribute="centerY" id="gaY-yW-xXJ"/>
                                     <constraint firstItem="Q0Q-qc-ktu" firstAttribute="top" secondItem="M5A-gH-B5z" secondAttribute="bottom" constant="8" id="k99-md-sl7"/>
                                     <constraint firstAttribute="trailing" secondItem="8jx-qA-q91" secondAttribute="trailing" constant="40" id="lYT-vc-2B6"/>
@@ -565,13 +565,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Access Testing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TER-mB-B2r">
-                                <rect key="frame" x="294" y="516" width="181" height="33.5"/>
+                                <rect key="frame" x="293.5" y="516" width="181" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm the pass has the expected level of access when swiped at a kiosk." textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="sEe-EB-Pb1">
-                                <rect key="frame" x="63" y="557.5" width="643" height="24"/>
+                                <rect key="frame" x="62.5" y="557.5" width="643" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -583,28 +583,36 @@
                                         <rect key="frame" x="0.0" y="0.0" width="618" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBw-lf-OuR">
-                                                <rect key="frame" x="0.0" y="0.0" width="195.5" height="60"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="142.5" height="60"/>
                                                 <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="HG6-lu-iWS"/>
                                                 </constraints>
-                                                <state key="normal" title="Amusement Area Access"/>
+                                                <state key="normal" title="Amusements"/>
                                                 <connections>
                                                     <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="kMf-bD-EEw"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jfe-Sf-saG">
-                                                <rect key="frame" x="211.5" y="0.0" width="195" height="60"/>
+                                                <rect key="frame" x="158.5" y="0.0" width="142.5" height="60"/>
                                                 <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <state key="normal" title="Ride Access"/>
+                                                <state key="normal" title="Rides"/>
                                                 <connections>
                                                     <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="NZS-fq-CQ6"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ec-Xu-Fx3">
-                                                <rect key="frame" x="422.5" y="0.0" width="195.5" height="60"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOp-F7-2YY">
+                                                <rect key="frame" x="317" y="0.0" width="142.5" height="60"/>
                                                 <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <state key="normal" title="Discount Access"/>
+                                                <state key="normal" title="Ride Control"/>
+                                                <connections>
+                                                    <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="tD9-bu-Ybd"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ec-Xu-Fx3">
+                                                <rect key="frame" x="475.5" y="0.0" width="142.5" height="60"/>
+                                                <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <state key="normal" title="Discounts"/>
                                                 <connections>
                                                     <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="WjD-Uv-ECJ"/>
                                                 </connections>
@@ -615,28 +623,36 @@
                                         <rect key="frame" x="0.0" y="90" width="618" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nf5-rg-Tql">
-                                                <rect key="frame" x="0.0" y="0.0" width="195.5" height="60"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="142.5" height="60"/>
                                                 <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="8RA-MI-iIb"/>
                                                 </constraints>
-                                                <state key="normal" title="Kitchen Access"/>
+                                                <state key="normal" title="Kitchen"/>
                                                 <connections>
                                                     <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="j9k-Lm-iUT"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DEU-dm-ss1">
-                                                <rect key="frame" x="211.5" y="0.0" width="195" height="60"/>
+                                                <rect key="frame" x="158.5" y="0.0" width="142.5" height="60"/>
                                                 <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <state key="normal" title="Maintenance Access"/>
+                                                <state key="normal" title="Maintenance"/>
                                                 <connections>
                                                     <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="jMl-9k-4ZA"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XVe-lm-Nwz">
-                                                <rect key="frame" x="422.5" y="0.0" width="195.5" height="60"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X0U-rG-XRH">
+                                                <rect key="frame" x="317" y="0.0" width="142.5" height="60"/>
                                                 <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <state key="normal" title="Office Access"/>
+                                                <state key="normal" title="Office"/>
+                                                <connections>
+                                                    <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="rrU-eW-aAy"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XVe-lm-Nwz">
+                                                <rect key="frame" x="475.5" y="0.0" width="142.5" height="60"/>
+                                                <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <state key="normal" title="Skip Lines"/>
                                                 <connections>
                                                     <action selector="testPermissions:" destination="ARR-nf-mtU" eventType="touchUpInside" id="AiL-25-Lt8"/>
                                                 </connections>
@@ -712,7 +728,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WcV-JH-wst" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="763" y="43"/>
+            <point key="canvasLocation" x="852" y="43"/>
         </scene>
     </scenes>
     <resources>
