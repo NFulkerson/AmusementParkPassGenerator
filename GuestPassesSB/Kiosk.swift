@@ -11,6 +11,7 @@ import Foundation
 enum KioskLocation {
     case Amusement
     case Kitchen
+    case RideAccess
     case RideControl
     case Maintenance
     case Office
@@ -41,13 +42,32 @@ struct Kiosk {
     func determinePermissions(for entrant: Entrant) -> Bool {
         switch location {
         case .Amusement:
+            if entrant is Guest || entrant is Employee {
+                return true
+            } else if entrant is Vendor {
+                let vendor = entrant as! Vendor
+                switch vendor.company {
+                case .acme, .fedex:
+                    return false
+                case .nwElectrical, .orkin:
+                    return true
+                }
+            } else if entrant is Contractor {
+                let contract = entrant as! Contractor
+                switch contract.project {
+                case .p1001, .p1002, .p1003:
+                    return true
+                case .p2001, .p2002:
+                    return false
+                }
+            }
+        case .RideAccess:
             if entrant is Guest {
                 let guest = entrant as! Guest
                 if guest.type == .vip {
                     print("Guest is permitted to skip lines!")
                 }
             }
-            
             return entrant is RideAccessible
         
         case .Kitchen, .RideControl, .Maintenance, .Office:
