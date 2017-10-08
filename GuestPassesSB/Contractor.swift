@@ -8,18 +8,24 @@
 
 import UIKit
 
-struct Contractor: Addressable {
+struct Contractor: Entrant, Addressable {
     var firstName: String?
-    var middleName: String?
     var lastName: String?
     let address: HomeAddress
+    let project: Project
+    var fullName: String {
+        guard let first = firstName, let last = lastName else {
+            return ""
+        }
+        return "\(first) \(last)"
+    }
     
     enum Project: String {
-        case p1001
-        case p1002
-        case p1003
-        case p2001
-        case p2002
+        case p1001 = "Project #1001"
+        case p1002 = "Project #1002"
+        case p1003 = "Project #1003"
+        case p2001 = "Project #2001"
+        case p2002 = "Project #2002"
     }
 
 }

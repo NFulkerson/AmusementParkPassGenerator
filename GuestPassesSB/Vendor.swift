@@ -17,8 +17,11 @@ struct Vendor: Entrant, Addressable {
     let birthDate: Date
     let visitDate: Date
     
-    enum VendorCompany {
-        case acme, orkin, fedex, nwElectrical
+    enum VendorCompany: String {
+        case acme = "Acme"
+        case orkin = "Orkin"
+        case fedex = "FedEx"
+        case nwElectrical = "NW Electrical"
     }
     
 }

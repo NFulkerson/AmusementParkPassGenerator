@@ -15,12 +15,19 @@ struct Guest: Entrant, RideAccessible, DiscountQualifiable {
     var birthDate: Date?
     var type: GuestType
     
-    enum GuestType {
-        case classic
-        case vip
-        case senior
-        case seasonPass
-        case child
+    /// GuestType
+    ///
+    /// - classic: Requires no extra information.
+    /// - vip: Requires no personal info. Perks.
+    /// - senior: Requires name and DOB.
+    /// - seasonPass: Requires name and address.
+    /// - child: Requires DOB.
+    enum GuestType: String {
+        case classic = "General Admittance"
+        case vip = "VIP Pass"
+        case senior = "Senior Pass"
+        case seasonPass = "Season Pass"
+        case child = "Free Child Pass"
     }
     
     var discounts: (food: PercentDiscount, merch: PercentDiscount) {
@@ -36,7 +43,8 @@ struct Guest: Entrant, RideAccessible, DiscountQualifiable {
         }
     }
     
-    init(guestType: GuestType, birthDate: String? = nil) throws {
+    init(guestType: GuestType, birthDate: String? = nil,
+         firstName: String? = nil, lastName: String? = nil) throws {
         switch guestType {
         case .child, .senior:
             let dateFormatter = DateFormatter()
@@ -44,6 +52,13 @@ struct Guest: Entrant, RideAccessible, DiscountQualifiable {
             
             guard let dob = birthDate ,let bday = dateFormatter.date(from: dob) else {
                 throw DOBError.dateConversionError("Couldn't create date from string.")
+            }
+            if guestType == .senior || guestType == .vip {
+                guard let first = firstName, let last = lastName else {
+                    throw NameError.invalidData
+                }
+                self.firstName = first
+                self.lastName = last
             }
             if guestType == .senior && bday.age < 60 {
                 throw DOBError.dobInvalid("Guest doesn't yet qualify for senior admission.")

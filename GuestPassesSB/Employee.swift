@@ -14,11 +14,11 @@ import Foundation
 /// - RideServices: Represents ride operators.
 /// - Maintenance: Represents maintenance workers.
 /// - Manager: Represents managerial staff.
-enum EmployeeType {
-    case FoodServices
-    case RideServices
-    case Maintenance
-    case Manager
+enum EmployeeType: String {
+    case FoodServices = "Food Services"
+    case RideServices = "Ride Services"
+    case Maintenance = "Maintenance"
+    case Manager = "Manager"
 }
 
 // This protocol is the base for all employees.
@@ -27,8 +27,8 @@ protocol Employable: Addressable {
 }
 
 struct Employee: Entrant, RideAccessible, Employable, DiscountQualifiable {
+    
     var firstName: String?
-    var middleName: String?
     var lastName: String?
     var address: HomeAddress
     var type: EmployeeType
@@ -45,15 +45,11 @@ struct Employee: Entrant, RideAccessible, Employable, DiscountQualifiable {
     ///
     /// - Parameters:
     ///   - type: The type of employee (Food Service, Ride Service, Management, Maintenance)
-    init(as type: EmployeeType, with firstName: String?, lastName: String?, address: HomeAddress) throws {
-        do {
-            try self.init(firstName: firstName, lastName: lastName)
+    init(as type: EmployeeType, with firstName: String?, lastName: String?, address: HomeAddress) {
+            self.firstName = firstName
+            self.lastName = lastName
             self.address = address
             self.type = type
-        } catch let error {
-            print(error)
-            throw error
-        }
     }
 }
 
