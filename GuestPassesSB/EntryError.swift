@@ -19,9 +19,8 @@ enum AccessError: Error {
 }
 
 enum EntrantConversionError: Error {
-    case UnidentifiableEntrant
+    case UnidentifiableEntrant(String)
 }
-
 
 enum FieldValidationError: Error {
     case mandatoryFieldMissing
