@@ -10,7 +10,6 @@ import Foundation
 
 struct Vendor: Entrant, Addressable {
     var firstName: String?
-    var middleName: String?
     var lastName: String?
     let address: HomeAddress
     let company: VendorCompany
@@ -22,6 +21,23 @@ struct Vendor: Entrant, Addressable {
         case orkin = "Orkin"
         case fedex = "FedEx"
         case nwElectrical = "NW Electrical"
+    }
+    
+    init(firstName: String, lastName: String, address: HomeAddress, company: String, birthDate: String) throws {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        guard let companyId = VendorCompany(rawValue: company) else {
+            throw EntrantConversionError.UnidentifiableEntrant("Could not identify vendor company.")
+        }
+        guard let dob = dateFormatter.date(from: birthDate) else {
+            throw DOBError.dateConversionError("Could not convert date from string.")
+        }
+        self.firstName = firstName
+        self.lastName = lastName
+        self.address = address
+        self.company = companyId
+        self.birthDate = dob
+        self.visitDate = Date()
     }
     
 }
