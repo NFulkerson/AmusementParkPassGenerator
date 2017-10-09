@@ -40,6 +40,7 @@ class PassViewController: UIViewController {
     
     @IBAction func dismissView(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+        self.pass = nil
     }
 
     @IBAction func testPermissions(_ sender: UIButton) {
