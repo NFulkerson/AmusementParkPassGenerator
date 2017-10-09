@@ -26,7 +26,6 @@
 		D8E24C111F3ACE4E00056C8B /* EntryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */; };
 		D8E24C121F3ACE4E00056C8B /* Kiosk.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */; };
 		D8E24C131F3ACE4E00056C8B /* ColorHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0D1F3ACE4E00056C8B /* ColorHelpers.swift */; };
-		D8E24C141F3ACE4E00056C8B /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0E1F3ACE4E00056C8B /* SampleData.swift */; };
 		D8E24C151F3ACE4E00056C8B /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E24C0F1F3ACE4E00056C8B /* Helpers.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +51,6 @@
 		D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryError.swift; sourceTree = "<group>"; };
 		D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kiosk.swift; sourceTree = "<group>"; };
 		D8E24C0D1F3ACE4E00056C8B /* ColorHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorHelpers.swift; sourceTree = "<group>"; };
-		D8E24C0E1F3ACE4E00056C8B /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		D8E24C0F1F3ACE4E00056C8B /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,7 +136,6 @@
 				D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */,
 				D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */,
 				D8E24C0D1F3ACE4E00056C8B /* ColorHelpers.swift */,
-				D8E24C0E1F3ACE4E00056C8B /* SampleData.swift */,
 				D8E24C0F1F3ACE4E00056C8B /* Helpers.swift */,
 			);
 			name = Helpers;
@@ -235,7 +232,6 @@
 				D8E24C151F3ACE4E00056C8B /* Helpers.swift in Sources */,
 				D8E24C071F3ACE2800056C8B /* Pass.swift in Sources */,
 				D8E24C121F3ACE4E00056C8B /* Kiosk.swift in Sources */,
-				D8E24C141F3ACE4E00056C8B /* SampleData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
