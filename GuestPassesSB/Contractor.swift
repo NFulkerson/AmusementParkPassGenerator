@@ -21,11 +21,21 @@ struct Contractor: Entrant, Addressable {
     }
     
     enum Project: String {
-        case p1001 = "Project #1001"
-        case p1002 = "Project #1002"
-        case p1003 = "Project #1003"
-        case p2001 = "Project #2001"
-        case p2002 = "Project #2002"
+        case p1001 = "#1001"
+        case p1002 = "#1002"
+        case p1003 = "#1003"
+        case p2001 = "#2001"
+        case p2002 = "#2002"
+    }
+    
+    init(firstName: String, lastName: String, address: HomeAddress, project: String) throws {
+        guard let projectType = Project(rawValue: project) else {
+            throw EntrantConversionError.UnidentifiableEntrant("Could not identify project type.")
+        }
+        self.firstName = firstName
+        self.lastName = lastName
+        self.address = address
+        self.project = projectType
     }
 
 }
