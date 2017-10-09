@@ -119,7 +119,11 @@ struct Kiosk {
                 default:
                     break
                 }
-                return true
+                if discount.food > 0 || discount.merch > 0 {
+                    return true
+                } else {
+                    return false
+                }
             }
         }
         print("Doesn't qualify for discounts.")
