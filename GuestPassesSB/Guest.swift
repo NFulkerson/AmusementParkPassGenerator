@@ -54,6 +54,10 @@ struct Guest: Entrant, RideAccessible, DiscountQualifiable {
                 throw DOBError.dateConversionError("Couldn't create date from string.")
             }
             if guestType == .senior || guestType == .vip {
+                
+                
+                //[REVIEW] Are you catching those errors anywhere?
+                
                 guard let first = firstName, let last = lastName else {
                     throw NameError.invalidData
                 }

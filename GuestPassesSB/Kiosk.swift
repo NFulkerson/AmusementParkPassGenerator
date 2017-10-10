@@ -45,6 +45,9 @@ struct Kiosk {
             if entrant is Guest || entrant is Employee {
                 return true
             } else if entrant is Vendor {
+                
+                //[REVIEW] Never ever force unwrap optionals!!!
+                
                 let vendor = entrant as! Vendor
                 switch vendor.company {
                 case .acme, .fedex:
