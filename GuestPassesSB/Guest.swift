@@ -14,7 +14,7 @@ struct Guest: Entrant, RideAccessible, DiscountQualifiable {
     var lastName: String?
     var birthDate: Date?
     var type: GuestType
-    
+
     /// GuestType
     ///
     /// - classic: Requires no extra information.
@@ -28,6 +28,15 @@ struct Guest: Entrant, RideAccessible, DiscountQualifiable {
         case senior = "Senior Pass"
         case seasonPass = "Season Pass"
         case child = "Free Child Pass"
+    }
+    
+    var canSkipLines: Bool {
+        switch type {
+        case .vip, .senior, .seasonPass:
+            return true
+        case .classic, .child:
+            return false
+        }
     }
     
     var discounts: (food: PercentDiscount, merch: PercentDiscount) {
