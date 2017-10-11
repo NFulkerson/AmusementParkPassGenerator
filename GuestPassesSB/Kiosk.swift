@@ -64,8 +64,8 @@ struct Kiosk {
         case .RideAccess:
             if entrant is Guest {
                 let guest = entrant as! Guest
-                if guest.type == .vip {
-                    print("Guest is permitted to skip lines!")
+                if guest.canSkipLines {
+                    print("You can skip lines!")
                 }
             }
             return entrant is RideAccessible
@@ -91,6 +91,29 @@ struct Kiosk {
                     }
                 case .RideServices:
                     if location == .RideControl {
+                        return true
+                    }
+            
+                }
+            } else if entrant is Contractor {
+                let contractor = entrant as! Contractor
+                switch contractor.project {
+                case .p1001:
+                    if location == .RideControl {
+                        return true
+                    }
+                case .p1002:
+                    if location == .RideControl || location == .Maintenance {
+                        return true
+                    }
+                case .p1003:
+                    return true
+                case .p2001:
+                    if location == .Office {
+                        return true
+                    }
+                case .p2002:
+                    if location == .Kitchen || location == .Maintenance {
                         return true
                     }
                 }
