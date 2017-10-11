@@ -15,11 +15,14 @@ class PassViewController: UIViewController {
     @IBOutlet weak var passBenefitsLabel: UILabel!
     @IBOutlet weak var testresultView: UIView!
     @IBOutlet weak var testResultLabel: UILabel!
+    @IBOutlet weak var projectIdLabel: UILabel!
     
     var pass: Pass?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // We don't want to show this label unless they're a contractor.
+        projectIdLabel.alpha = 0
         guard let pass = pass else {
             let alert = UIAlertController(title: "Error", message: "Seems we couldn't load the pass data.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
@@ -30,7 +33,12 @@ class PassViewController: UIViewController {
         self.passCardNameLabel.text = passName
         self.passCardNameLabel.sizeToFit()
         self.passTypeLabel.text = pass.passDescription()
-        
+        addBenefits()
+        if pass.passType == .contract {
+            projectIdLabel.alpha = 1
+            let contractor = pass.owner as! Contractor
+            projectIdLabel.text = "Project \(contractor.project.rawValue)"
+        }
     }
 
     override func didReceiveMemoryWarning() {
