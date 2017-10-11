@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FieldValidatable {
-    var mandatory: Bool { get set }
+    var isMandatory: Bool { get set }
 }
 
 struct HomeAddress {
