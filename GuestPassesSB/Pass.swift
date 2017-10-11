@@ -39,7 +39,7 @@ import UIKit
 struct Pass {
     let name: String?
     let passType: PassType
-    let benefits: String?
+    var benefits: [String] = []
     let photo: UIImage?
     let owner: Entrant
     // Gives the pass the responsibility of describing what specific pass it is without
@@ -57,7 +57,7 @@ struct Pass {
             description = employee.type.rawValue
         } else if self.owner is Contractor {
             let contract = owner as! Contractor
-            description = contract.project.rawValue
+            description = "Contract Employee"
         } else if self.owner is Vendor {
             let vendor = owner as! Vendor
             description = vendor.company.rawValue
@@ -65,6 +65,40 @@ struct Pass {
             description = "Invalid Pass?"
         }
         return description
+    }
+    
+    init(firstName: String? = nil, lastName: String? = nil, passType: PassType, photo: UIImage? = nil, owner: Entrant) {
+        if let firstName = firstName, let lastName = lastName {
+            self.name = "\(firstName) \(lastName)"
+        } else {
+            self.name = nil
+        }
+        self.passType = passType
+        self.photo = photo
+        self.owner = owner
+        switch passType {
+        case .guest:
+            let guest = owner as! Guest
+            if guest.canSkipLines {
+                self.benefits.append("Can skip lines")
+            }
+            if guest.discounts.food > 0 {
+                self.benefits.append("\(guest.discounts.food * 100)% discount on food")
+            }
+            if guest.discounts.merch > 0 {
+                self.benefits.append("\(guest.discounts.merch * 100)% discount on merchandise")
+            }
+        case .employee:
+            let employee = owner as! Employee
+            if employee.discounts.food > 0 {
+                self.benefits.append("\(employee.discounts.food * 100)% discount on food")
+            }
+            if employee.discounts.merch > 0 {
+                self.benefits.append("\(employee.discounts.merch * 100)% discount on merchandise")
+            }
+        default:
+            self.benefits = []
+        }
     }
 }
 

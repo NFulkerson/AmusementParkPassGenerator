@@ -105,5 +105,20 @@ class PassViewController: UIViewController {
             testresultView.backgroundColor = UIColor.red
         }
     }
+    
+    func addBenefits() {
+        if let pass = pass {
+            if pass.benefits.count > 0 {
+                print("\(pass.benefits.count) benefits: \(pass.benefits)")
+                var benefitText: String = ""
+                for benefit in pass.benefits {
+                    benefitText += "\(benefit)\n"
+                }
+                passBenefitsLabel.text = benefitText
+            } else {
+                passBenefitsLabel.text = ""
+            }
+        }
+    }
 
 }
