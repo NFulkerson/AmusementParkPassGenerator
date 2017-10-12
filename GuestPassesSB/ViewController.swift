@@ -100,6 +100,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         if subcategoryStackView.alpha == 0 {
+            
+            
+            
+            //[REVIEW] always use [weak sel] or [unowned self] to prevent a retain cycle in closures
             UIView.animate(withDuration: 1.0, animations: {
                 self.subcategoryStackView.alpha = 1
             })
@@ -400,10 +404,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     // Couldn't get the date picker to play nicely in resigning the keyboard--I'm probably confused over where to send
     // the action. Meanwhile, I'm using an up-to-date version of the method found here:
     // http://roadfiresoftware.com/2015/01/the-easy-way-to-dismiss-the-ios-keyboard/
+    
+    
+    //[REVIEW] Check out this WWDC video and the code, might help with the problem: https://developer.apple.com/videos/play/wwdc2017/242/
+    
     @objc func finishPickingDate(sender: UIBarButtonItem) {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
     }
     
+    //[REVIEW] I don't think this function will ever work. You'd better switch on the entrant type and check for the proper text fields to have text, otherwise return false and show an alert
     func submitForm() -> Bool {
         var emptyFields: [UIFormTextField] = []
         
