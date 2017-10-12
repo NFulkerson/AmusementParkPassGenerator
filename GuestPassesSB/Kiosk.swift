@@ -48,12 +48,13 @@ struct Kiosk {
                 
                 //[REVIEW] Never ever force unwrap optionals!!!
                 
-                let vendor = entrant as! Vendor
-                switch vendor.company {
-                case .acme, .fedex:
-                    return false
-                case .nwElectrical, .orkin:
-                    return true
+                if let vendor = entrant as? Vendor {
+                    switch vendor.company {
+                    case .acme, .fedex:
+                        return false
+                    case .nwElectrical, .orkin:
+                        return true
+                    }
                 }
             } else if entrant is Contractor {
                 let contract = entrant as! Contractor
@@ -120,7 +121,37 @@ struct Kiosk {
                         return true
                     }
                 }
-            } else {
+            } else if entrant is Vendor {
+                if let vendor = entrant as? Vendor {
+                    switch vendor.company {
+                    case .acme:
+                        switch location {
+                        case .Kitchen:
+                            return true
+                        default:
+                            return false
+                        }
+                    case .fedex:
+                        switch location {
+                        case .Maintenance, .Office:
+                            return true
+                        default:
+                            return false
+                        }
+                    case .nwElectrical:
+                        return true
+                    case .orkin:
+                        switch location {
+                        case .Amusement, .Kitchen, .RideControl:
+                            return true
+                        default:
+                            return false
+                        }
+                    }
+                }
+                
+            }
+            else {
                 return false
             }
         
