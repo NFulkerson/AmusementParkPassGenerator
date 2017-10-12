@@ -98,6 +98,7 @@
 				D8E24B741F3AC80D00056C8B /* ViewController.swift */,
 				D8E24BFF1F3ACE2800056C8B /* Pass.swift */,
 				D8477C0C1F57268F00632D68 /* PassViewController.swift */,
+				D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */,
 				D8E24B761F3AC80D00056C8B /* Main.storyboard */,
 				D8E24B791F3AC80D00056C8B /* Assets.xcassets */,
 				D8E24B7B1F3AC80D00056C8B /* LaunchScreen.storyboard */,
@@ -134,7 +135,6 @@
 			children = (
 				D8E24C0A1F3ACE4E00056C8B /* BusinessProtocols.swift */,
 				D8E24C0B1F3ACE4E00056C8B /* EntryError.swift */,
-				D8E24C0C1F3ACE4E00056C8B /* Kiosk.swift */,
 				D8E24C0D1F3ACE4E00056C8B /* ColorHelpers.swift */,
 				D8E24C0F1F3ACE4E00056C8B /* Helpers.swift */,
 			);
