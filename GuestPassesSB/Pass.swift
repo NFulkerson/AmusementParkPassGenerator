@@ -56,7 +56,6 @@ struct Pass {
             let employee = owner as! Employee
             description = employee.type.rawValue
         } else if self.owner is Contractor {
-            let contract = owner as! Contractor
             description = "Contract Employee"
         } else if self.owner is Vendor {
             let vendor = owner as! Vendor
@@ -120,7 +119,7 @@ enum PassType: String {
         case .contract:
             return ["#1001", "#1002", "#1003", "#2001", "#2002"]
         case .vendor:
-            return ["NW Electric", "Acme", "Orkin", "Fedex"]
+            return ["NW Electrical", "Acme", "Orkin", "FedEx"]
         }
     }
     
