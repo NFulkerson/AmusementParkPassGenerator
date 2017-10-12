@@ -40,7 +40,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     var selectedSubcategory: String? {
         didSet {
             disableFields()
-            enableFields(for: selectedPassType!)
+            if let selectedPassType = selectedPassType {
+                enableFields(for: selectedPassType)
+            }
         }
     }
     var pass: Pass?
@@ -54,7 +56,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         subcategoryStackView.alpha = 0
         // - TODO: We don't truly need these defaults if the submenu is hidden, but removing it appears to break layout. Investigate.
         selectedPassType = PassType.guest
-        let defaultSubMenu = selectedPassType!.getSubcategories()
+        let defaultSubMenu = selectedPassType?.getSubcategories()
         
         // set UITextFieldDelegate to the view controller so we can resign/close the keyboard.
         for field in formFields {
@@ -62,12 +64,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         clearSubMenuItems()
-        for item in defaultSubMenu {
-            let submenuButton = UIButton(type: .system)
-            submenuButton.setTitle(item, for: .normal)
-            styleThatButton(button: submenuButton)
+        if let defaultSubMenu = defaultSubMenu {
+            for item in defaultSubMenu {
+                let submenuButton = UIButton(type: .system)
+                submenuButton.setTitle(item, for: .normal)
+                styleThatButton(button: submenuButton)
+            }
         }
-        
     }
     
     // Reset textField background color, in case invalid fields have been fixed.
@@ -81,7 +84,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         styleCategoryButtons(in: mainMenuUIButtons)
         styleActiveButton(button: sender)
-        let passType = PassType(rawValue: sender.currentTitle!)
+        guard let buttonTitle = sender.currentTitle else {
+            return
+        }
+        let passType = PassType(rawValue: buttonTitle)
         selectedPassType = passType
         // Clear subCategory to prevent unwanted/unexpected behavior.
         selectedSubcategory = nil
@@ -100,12 +106,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         if subcategoryStackView.alpha == 0 {
-            
-            
-            
             //[REVIEW] always use [weak sel] or [unowned self] to prevent a retain cycle in closures
-            UIView.animate(withDuration: 1.0, animations: {
-                self.subcategoryStackView.alpha = 1
+            //[AUTHOR] Sources here say that animate(withDuration:) will not create a retain cycle but it likely doesn't
+            // hurt to be cautious: http://www.thomashanning.com/retain-cycles-weak-unowned-swift/
+            UIView.animate(withDuration: 1.0, animations: { [weak self] in
+                    self?.subcategoryStackView.alpha = 1
             })
         }
         clearFieldText()
@@ -113,60 +118,63 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     func shouldGeneratePass() -> Bool {
         print("Generate pass tapped.")
+        guard let passType = selectedPassType, let subType = selectedSubcategory else {
+            displayAlert(with: "Error", message: "Please select a pass type and sub-type first.")
+            return false
+        }
         let result = submitForm()
         if result == false {
            return false
         }
-        switch selectedPassType! {
+        
+        switch passType {
         case .guest:
             var guest: Guest?
-            switch selectedSubcategory! {
+            switch subType {
             case "Classic":
                 do {
                     guest = try Guest(guestType: .classic)
                 } catch {
-                    print("Debug: \(error)")
-                    passError = error
+                    displayAlert(with: "Error", message: "\(error)")
                 }
             case "VIP":
                 do {
                     guest = try Guest(guestType: .vip, firstName: firstNameField.text, lastName: lastNameField.text)
                 } catch {
-                    print("Debug: \(error)")
-                    passError = error
+                    displayAlert(with: "Error", message: "\(error)")
                 }
             case "Senior":
                 do {
                     guest = try Guest(guestType: .senior, birthDate: dobField.text, firstName: firstNameField.text, lastName: lastNameField.text)
                 } catch {
-                    print("Debug: \(error)")
-                    passError = error
+                    displayAlert(with: "Error", message: "\(error)")
                 }
             case "Child":
                 do {
                     guest = try Guest(guestType: .child, birthDate: dobField.text)
                 } catch {
-                    print("Debug: \(error)")
-                    passError = error
+                    displayAlert(with: "Error", message: "\(error)")
                 }
             case "Seasonal":
                 do {
                     guest = try Guest(guestType: .seasonPass)
                 } catch {
-                    print("Debug: \(error)")
-                    passError = error
+                    displayAlert(with: "Error", message: "\(error)")
                 }
             default:
-                let alert = UIAlertController(title: "Error", message: "Something went wrong.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                displayAlert(with: "Error", message: "Could not create pass for Guest.")
                 return false
             }
+            
             guard let entrant = guest else {
                 return false
             }
             if firstNameField.isEnabled && lastNameField.isEnabled {
-                self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .guest, photo: nil, owner: entrant)
+                guard let firstName = firstNameField.text, let lastName = lastNameField.text else {
+                    displayAlert(with: "Name Error", message: "Name field is empty or invalid.")
+                    return false
+                }
+                self.pass = Pass(firstName: firstName, lastName: lastName, passType: .guest, photo: nil, owner: entrant)
             } else {
                 self.pass = Pass(passType: .guest, owner: entrant)
             }
@@ -174,12 +182,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             var employee: Employee
             var employeeType: EmployeeType
             guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
-                let alert = UIAlertController(title: "Error", message: "Check the address fields and try again.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                displayAlert(with: "Address Error", message: "Check the address fields and try again.")
                 return false
             }
-            switch selectedSubcategory! {
+            
+            switch subType {
             case "Food Services":
                 employeeType = .FoodServices
             case "Ride Services":
@@ -187,40 +194,39 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             case "Maintenance Services":
                 employeeType = .Maintenance
             default:
-                let alert = UIAlertController(title: "Error", message: "Something went wrong.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                displayAlert(with: "Employee Error", message: "Can't identify Employee classification.")
                 return false
             }
             do {
                 employee = try Employee(as: employeeType, with: firstNameField.text, lastName: lastNameField.text, address: HomeAddress(street: street, city: city, state: state))
             } catch {
-                print(error)
+                displayAlert(with: "Employee Error", message: error.localizedDescription)
                 return false
             }
-            self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .employee, owner: employee)
-        
+            self.pass = Pass(firstName: firstNameField.text, lastName: lastNameField.text, passType: .employee, owner: employee)
+            
         case .contract:
             var contract: Contractor
             var address: HomeAddress
             guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
-                let alert = UIAlertController(title: "Error", message: "Check the address fields and try again.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                displayAlert(with: "Address Error", message: "Check the address fields and try again.")
                 return false
             }
             do {
                 address = try HomeAddress(street: street, city: city, state: state)
             } catch {
-                print(error)
+                displayAlert(with: "Address Error", message: "\(error)")
                 return false
             }
-            
+            guard let firstName = firstNameField.text, let lastName = lastNameField.text else {
+                displayAlert(with: "Name Error", message: "Name is missing or invalid.")
+                return false
+            }
             do {
-                contract = try Contractor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, project: selectedSubcategory!)
-                self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .contract, owner: contract)
+                contract = try Contractor(firstName: firstName, lastName: lastName, address: address, project: subType)
+                self.pass = Pass(firstName: firstName, lastName: lastName, passType: .contract, owner: contract)
             } catch {
-                print(error)
+                displayAlert(with: "Contractor Error", message: "\(error)")
                 return false
             }
             
@@ -228,30 +234,39 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             var address: HomeAddress
             var manager: Employee?
             guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
-                print("address error")
+                displayAlert(with: "Address Error", message: "Check the address fields and try again.")
                 return false
             }
             do {
                 address = try HomeAddress(street: street, city: city, state: state)
-                manager = Employee(as: .Manager, with: firstNameField.text!, lastName: lastNameField.text!, address: address)
+                manager = Employee(as: .Manager, with: firstNameField.text, lastName: lastNameField.text, address: address)
             } catch {
-                print(error)
+                displayAlert(with: "Error", message: "\(error)")
             }
             guard let entrant = manager else {
                 return false
             }
-            self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .manager, owner: entrant)
+            self.pass = Pass(firstName: firstNameField.text, lastName: lastNameField.text, passType: .manager, owner: entrant)
+        
         case .vendor:
             guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
-                print("address error")
+                displayAlert(with: "Address Error", message: "Address is invalid. Check the address fields and try again.")
+                return false
+            }
+            guard let firstName = firstNameField.text, let lastName = lastNameField.text else {
+                displayAlert(with: "Name Error", message: "Name is invalid.")
+                return false
+            }
+            guard let company = companyField.text, let dob = dobField.text else {
+                displayAlert(with: "Missing value", message: "Check the required fields and try again.")
                 return false
             }
             do {
                 let address = try HomeAddress(street: street, city: city, state: state)
-                let vendor = try Vendor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, company: companyField.text!, birthDate: dobField.text!)
-                self.pass = Pass(firstName: vendor.firstName!, lastName: vendor.lastName!, passType: .vendor, owner: vendor)
+                let vendor = try Vendor(firstName: firstName, lastName: lastName, address: address, company: company, birthDate: dob)
+                self.pass = Pass(firstName: vendor.firstName, lastName: vendor.lastName, passType: .vendor, owner: vendor)
             } catch {
-                print(error)
+                displayAlert(with: "Error", message: error.localizedDescription)
                 return false
             }
             
@@ -286,9 +301,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     @IBAction func populateData(_ sender: Any) {
         guard let passType = selectedPassType, let subType = selectedSubcategory else {
-            let alert = UIAlertController(title: "Error", message: "Please select a pass type and sub-type first.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            displayAlert(with: "Entrant Error", message: "Select a pass type and a sub-category first.")
             return
         }
 
@@ -395,7 +408,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     private func styleCategoryButtons(in buttons: [UIButton]) {
         for button in buttons {
-            print(button.titleLabel?.text ?? "Nothing")
             button.setTitleColor(UIColor.CustomColor.Gray.muted, for: .normal)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.semibold)
         }
@@ -404,8 +416,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     // Couldn't get the date picker to play nicely in resigning the keyboard--I'm probably confused over where to send
     // the action. Meanwhile, I'm using an up-to-date version of the method found here:
     // http://roadfiresoftware.com/2015/01/the-easy-way-to-dismiss-the-ios-keyboard/
-    
-    
     //[REVIEW] Check out this WWDC video and the code, might help with the problem: https://developer.apple.com/videos/play/wwdc2017/242/
     
     @objc func finishPickingDate(sender: UIBarButtonItem) {
@@ -413,6 +423,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     //[REVIEW] I don't think this function will ever work. You'd better switch on the entrant type and check for the proper text fields to have text, otherwise return false and show an alert
+    //[REPLY] This will actually work, as another function modifies the isMandatory flag on the textField when a type is selected. However, it's still worth rewriting the implementation to simplify matters.
     func submitForm() -> Bool {
         var emptyFields: [UIFormTextField] = []
         
@@ -424,9 +435,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             }
         }
         if emptyFields.count > 0 {
-            print("Empty fields: \(emptyFields.count)")
             for field in emptyFields {
-                print("Setting background color for \(field) to red")
                 field.backgroundColor = UIColor.red
             }
             return false
@@ -477,6 +486,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         for field in formFields {
             field.isEnabled = false
         }
+    }
+    
+    private func displayAlert(with title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
