@@ -43,6 +43,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             enableFields(for: selectedPassType!)
         }
     }
+    var pass: Pass?
+    var passError: Error?
     
     // - MARK: Default Methods
     
@@ -51,9 +53,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         // Set the visibility of the submenu to 0 until the user has selected a parent category.
         subcategoryStackView.alpha = 0
         // - TODO: We don't truly need these defaults if the submenu is hidden, but removing it appears to break layout. Investigate.
-         selectedPassType = PassType.guest
-         let defaultSubMenu = selectedPassType!.getSubcategories()
-        
+        selectedPassType = PassType.guest
+        let defaultSubMenu = selectedPassType!.getSubcategories()
         
         // set UITextFieldDelegate to the view controller so we can resign/close the keyboard.
         for field in formFields {
@@ -69,18 +70,21 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // Reset textField background color, in case invalid fields have been fixed.
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.backgroundColor = UIColor.white
     }
     
     // - MARK: IBActions
     
     @IBAction func categoryButtonTapped(_ sender: UIButton) {
+        
         styleCategoryButtons(in: mainMenuUIButtons)
         styleActiveButton(button: sender)
         let passType = PassType(rawValue: sender.currentTitle!)
         selectedPassType = passType
+        // Clear subCategory to prevent unwanted/unexpected behavior.
+        selectedSubcategory = nil
         // Look into setting up a delegate to handle some of this behavior. Right now the view controller and Pass
         // both require some maintenance should things change
         let subCategories = passType?.getSubcategories()
@@ -101,6 +105,159 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             })
         }
         clearFieldText()
+    }
+    
+    func shouldGeneratePass() -> Bool {
+        print("Generate pass tapped.")
+        let result = submitForm()
+        if result == false {
+           return false
+        }
+        switch selectedPassType! {
+        case .guest:
+            var guest: Guest?
+            switch selectedSubcategory! {
+            case "Classic":
+                do {
+                    guest = try Guest(guestType: .classic)
+                } catch {
+                    print("Debug: \(error)")
+                    passError = error
+                }
+            case "VIP":
+                do {
+                    guest = try Guest(guestType: .vip, firstName: firstNameField.text, lastName: lastNameField.text)
+                } catch {
+                    print("Debug: \(error)")
+                    passError = error
+                }
+            case "Senior":
+                do {
+                    guest = try Guest(guestType: .senior, birthDate: dobField.text, firstName: firstNameField.text, lastName: lastNameField.text)
+                } catch {
+                    print("Debug: \(error)")
+                    passError = error
+                }
+            case "Child":
+                do {
+                    guest = try Guest(guestType: .child, birthDate: dobField.text)
+                } catch {
+                    print("Debug: \(error)")
+                    passError = error
+                }
+            case "Seasonal":
+                do {
+                    guest = try Guest(guestType: .seasonPass)
+                } catch {
+                    print("Debug: \(error)")
+                    passError = error
+                }
+            default:
+                let alert = UIAlertController(title: "Error", message: "Something went wrong.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+            guard let entrant = guest else {
+                return false
+            }
+            if firstNameField.isEnabled && lastNameField.isEnabled {
+                self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .guest, photo: nil, owner: entrant)
+            } else {
+                self.pass = Pass(passType: .guest, owner: entrant)
+            }
+        case .employee:
+            var employee: Employee
+            var employeeType: EmployeeType
+            guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
+                let alert = UIAlertController(title: "Error", message: "Check the address fields and try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+            switch selectedSubcategory! {
+            case "Food Services":
+                employeeType = .FoodServices
+            case "Ride Services":
+                employeeType = .RideServices
+            case "Maintenance Services":
+                employeeType = .Maintenance
+            default:
+                let alert = UIAlertController(title: "Error", message: "Something went wrong.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+            do {
+                employee = try Employee(as: employeeType, with: firstNameField.text, lastName: lastNameField.text, address: HomeAddress(street: street, city: city, state: state))
+            } catch {
+                print(error)
+                return false
+            }
+            self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .employee, owner: employee)
+        
+        case .contract:
+            var contract: Contractor
+            var address: HomeAddress
+            guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
+                let alert = UIAlertController(title: "Error", message: "Check the address fields and try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+            do {
+                address = try HomeAddress(street: street, city: city, state: state)
+            } catch {
+                print(error)
+                return false
+            }
+            
+            do {
+                contract = try Contractor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, project: selectedSubcategory!)
+                self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .contract, owner: contract)
+            } catch {
+                print(error)
+                return false
+            }
+            
+        case .manager:
+            var address: HomeAddress
+            var manager: Employee?
+            guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
+                print("address error")
+                return false
+            }
+            do {
+                address = try HomeAddress(street: street, city: city, state: state)
+                manager = Employee(as: .Manager, with: firstNameField.text!, lastName: lastNameField.text!, address: address)
+            } catch {
+                print(error)
+            }
+            guard let entrant = manager else {
+                return false
+            }
+            self.pass = Pass(firstName: firstNameField.text!, lastName: lastNameField.text!, passType: .manager, owner: entrant)
+        case .vendor:
+            guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
+                print("address error")
+                return false
+            }
+            do {
+                let address = try HomeAddress(street: street, city: city, state: state)
+                let vendor = try Vendor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, company: companyField.text!, birthDate: dobField.text!)
+                self.pass = Pass(firstName: vendor.firstName!, lastName: vendor.lastName!, passType: .vendor, owner: vendor)
+            } catch {
+                print(error)
+                return false
+            }
+            
+        }
+        if self.pass != nil {
+            print("Data is ok, let's set it as true.")
+            return true
+        }
+        print("Work done.")
+        return false
     }
     
     @IBAction func beganEditingDOBField(_ sender: UIFormTextField) {
@@ -164,24 +321,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
                 return
             }
         case .vendor:
-            switch subType {
-            case "NW Electric":
-                companyField.text = "NW Electric"
-            case "Acme":
-                companyField.text = "Acme"
-            case "Orkin":
-                companyField.text = "Orkin"
-            case "Fedex":
-                companyField.text = "Fedex"
-            default:
-                return
-            }
             firstNameField.text = "Wile"
             lastNameField.text = "Coyote"
             streetAddressField.text = "1 Runner Road"
             cityField.text = "Acmeville"
             stateField.text = "New Mexico"
             zipField.text = "11122"
+            companyField.text = subType
         }
     }
     
@@ -189,163 +335,19 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     // This determines whether the segue should be performed at all
     // And if the return value is true, will call prepare(for segue:)
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        var result = false
         if identifier == "generatePassViewSegue" {
-         result = submitForm()
+            return shouldGeneratePass()
+        } else {
+            return false
         }
-        return result
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "generatePassViewSegue" {
-            var pass: Pass
-            switch selectedPassType! {
-            case .guest:
-                var guest: Guest?
-                switch selectedSubcategory! {
-                case "Classic":
-                    do {
-                        guest = try Guest(guestType: .classic)
-                    } catch {
-                        print(error)
-                    }
-                case "VIP":
-                    do {
-                        guest = try Guest(guestType: .vip, firstName: firstNameField.text, lastName: lastNameField.text)
-                    } catch {
-                        print(error)
-                    }
-                case "Senior":
-                    do {
-                        guest = try Guest(guestType: .senior, birthDate: dobField.text, firstName: firstNameField.text, lastName: lastNameField.text)
-                    } catch {
-                        print(error)
-                    }
-                case "Child":
-                    do {
-                        guest = try Guest(guestType: .child, birthDate: dobField.text)
-                    } catch {
-                        print(error)
-                    }
-                case "Seasonal":
-                    do {
-                        guest = try Guest(guestType: .seasonPass)
-                    } catch {
-                        print(error)
-                    }
-                default:
-                    let alert = UIAlertController(title: "Error", message: "Something went wrong.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                guard let entrant = guest else {
-                    return
-                }
-                if firstNameField.isEnabled && lastNameField.isEnabled {
-                    pass = Pass(name: "\(firstNameField.text!) \(lastNameField.text!)", passType: .guest, benefits: nil, photo: nil, owner: entrant)
-                } else {
-                    pass = Pass(name: nil, passType: .guest, benefits: nil, photo: nil, owner: entrant)
-                }
-                
-                let passVC = segue.destination as? PassViewController
-                passVC?.pass = pass
-            case .employee:
-                var employee: Employee
-                var employeeType: EmployeeType
-                guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
-                    let alert = UIAlertController(title: "Error", message: "Check the address fields and try again.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                switch selectedSubcategory! {
-                case "Food Services":
-                    employeeType = .FoodServices
-                case "Ride Services":
-                    employeeType = .RideServices
-                case "Maintenance Services":
-                    employeeType = .Maintenance
-                default:
-                    let alert = UIAlertController(title: "Error", message: "Something went wrong.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                do {
-                    employee = try Employee(as: employeeType, with: firstNameField.text, lastName: lastNameField.text, address: HomeAddress(street: street, city: city, state: state))
-                } catch {
-                    print(error)
-                    return
-                }
-                let pass = Pass(name: "\(employee.firstName!) \(employee.lastName!)", passType: .employee, benefits: nil, photo: nil, owner: employee)
-                let passVC = segue.destination as? PassViewController
-                passVC?.pass = pass
-            case .contract:
-                var contract: Contractor
-                var address: HomeAddress
-                guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
-                    let alert = UIAlertController(title: "Error", message: "Check the address fields and try again.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                do {
-                    address = try HomeAddress(street: street, city: city, state: state)
-                } catch {
-                    print(error)
-                    return
-                }
-                switch selectedSubcategory! {
-                case "#1001":
-                    contract = Contractor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, project: .p1001)
-                case "#1002":
-                    contract = Contractor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, project: .p1002)
-                case "#1003":
-                    contract = Contractor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, project: .p1003)
-                case "#2001":
-                    contract = Contractor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, project: .p2001)
-                case "#2002":
-                    contract = Contractor(firstName: firstNameField.text!, lastName: lastNameField.text!, address: address, project: .p2002)
-                default:
-                    return
-                }
-                let pass = Pass(name: "\(contract.firstName!) \(contract.lastName!)", passType: .contract, benefits: nil, photo: nil, owner: contract)
-                let passVC = segue.destination as? PassViewController
-                passVC?.pass = pass
-            case .manager:
-                var address: HomeAddress
-                var manager: Employee?
-                guard let street = streetAddressField.text, let city = cityField.text, let state = stateField.text else {
-                    print("address error")
-                    return
-                }
-                do {
-                    address = try HomeAddress(street: street, city: city, state: state)
-                    manager = Employee(as: .Manager, with: firstNameField.text!, lastName: lastNameField.text!, address: address)
-                } catch {
-                    print(error)
-                }
-                guard let entrant = manager else {
-                    return
-                }
-                let pass = Pass(name: "\(entrant.firstName!) \(entrant.lastName!)", passType: .manager, benefits: nil, photo: nil, owner: entrant)
-                let passVC = segue.destination as? PassViewController
-                passVC?.pass = pass
-            case .vendor:
-                switch selectedSubcategory! {
-                case "NW Electric":
-                    print("boop")
-                case "Acme":
-                    print("the")
-                case "Orkin":
-                    print("borkin")
-                case "Fedex":
-                    print("snoot")
-                default:
-                    print("howbowdah?")
-                }
-            }
+            print("Going to segue to Pass View.")
+            let passVC = segue.destination as! PassViewController
+            passVC.pass = self.pass
+            self.pass = nil
         }
     }
     
@@ -367,7 +369,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     @objc func subcategoryButtonTapped(_ sender: UIButton) throws {
         guard let subcategory = sender.titleLabel?.text else {
-            throw EntrantConversionError.UnidentifiableEntrant
+            throw EntrantConversionError.UnidentifiableEntrant("Could not identify sub-category.")
         }
         selectedSubcategory = subcategory
         styleCategoryButtons(in: subMenuUIButtons)
@@ -406,15 +408,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         var emptyFields: [UIFormTextField] = []
         
         for field in formFields {
-            
             if let fieldEmpty = field.text?.isEmpty {
-                if field.mandatory && fieldEmpty {
+                if field.isEnabled && fieldEmpty {
                     emptyFields.append(field)
                 }
             }
         }
         if emptyFields.count > 0 {
+            print("Empty fields: \(emptyFields.count)")
             for field in emptyFields {
+                print("Setting background color for \(field) to red")
                 field.backgroundColor = UIColor.red
             }
             return false
