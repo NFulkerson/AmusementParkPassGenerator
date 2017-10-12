@@ -344,6 +344,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             cityField.text = "Acmeville"
             stateField.text = "New Mexico"
             zipField.text = "11122"
+            dobField.text = "05/01/1985"
             companyField.text = subType
         }
     }
