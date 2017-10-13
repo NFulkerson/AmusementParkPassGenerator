@@ -28,6 +28,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     @IBOutlet weak var zipField: UIFormTextField!
     @IBOutlet weak var categoryStackView: UIStackView!
     @IBOutlet weak var subcategoryStackView: UIStackView!
+    @IBOutlet weak var generatePassButton: UIButton!
+    @IBOutlet weak var generatePassButtonConstraint: NSLayoutConstraint!
     
     // - MARK: Properties
     
@@ -52,6 +54,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         // Set the visibility of the submenu to 0 until the user has selected a parent category.
         subcategoryStackView.alpha = 0
         // - TODO: We don't truly need these defaults if the submenu is hidden, but removing it appears to break layout. Investigate.
@@ -76,6 +80,27 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     // Reset textField background color, in case invalid fields have been fixed.
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.backgroundColor = UIColor.white
+    }
+    // Many thanks to some hints from Dan and that WWDC video for this, though this implementation is far simpler than
+    // the WWDC video.
+    @objc func keyboardWillHide(_ notification: Notification) {
+        print(self.generatePassButtonConstraint.constant)
+        UIView.animate(withDuration: 0.5) {
+            self.generatePassButtonConstraint.constant = 40
+            self.view.layoutIfNeeded()
+        }
+        print(self.generatePassButtonConstraint.constant)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+        print(self.generatePassButtonConstraint.constant)
+        UIView.animate(withDuration: 0.5) {
+            self.generatePassButtonConstraint.constant = frame.size.height + 10
+            self.view.layoutIfNeeded()
+        }
+        print(self.generatePassButtonConstraint.constant)
     }
     
     // - MARK: IBActions
@@ -424,17 +449,37 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     //[REVIEW] I don't think this function will ever work. You'd better switch on the entrant type and check for the proper text fields to have text, otherwise return false and show an alert
-    //[REPLY] This will actually work, as another function modifies the isMandatory flag on the textField when a type is selected. However, it's still worth rewriting the implementation to simplify matters.
+    //[REPLY] This will usually work, but Swift does have an odd take on what "empty" means, which means I had to rethink a few areas.
     func submitForm() -> Bool {
         var emptyFields: [UIFormTextField] = []
         
         for field in formFields {
-            if let fieldEmpty = field.text?.isEmpty {
-                if field.isEnabled && fieldEmpty {
+            
+            if let fieldText = field.text {
+                // " " is not considered empty in Swift, so we should trim out whitespace to determine whether
+                // we have something.
+                let trimText = fieldText.trimmingCharacters(in: .whitespacesAndNewlines)
+                if field.isEnabled && trimText.isEmpty {
                     emptyFields.append(field)
                 }
             }
         }
+        
+        if zipField.isEnabled {
+            if let zipCode = zipField.text {
+                let isNumeric = zipCode.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted)
+                let result = (isNumeric == nil)
+                if result == false {
+                    displayAlert(with: "Error", message: "Zip code may only contain numeric characters.")
+                    emptyFields.append(zipField)
+                }
+            }
+        }
+        
+        if ssnField.isEnabled {
+            // TODO: Implement
+        }
+        
         if emptyFields.count > 0 {
             for field in emptyFields {
                 field.backgroundColor = UIColor.red
